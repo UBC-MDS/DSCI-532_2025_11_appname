@@ -6,6 +6,12 @@ Tech companies comprise a significant proportion of the market economy; Alphabet
 
 New data scientists face increasingly fierce competition, uncertain job markets, and constant shifts in trends. This dashboard seeks to address these needs by succintly visualizing the current hiring and layoff trends of major tech companies. This tool would allow recent data science graduates to locate growing or shrinking teams at a glance and make more informed decisions about their applications.
 
+## Section 2: Description of the Data
+
+There are 532 rows and 16 columns in the data, 3 of the columns are corresponding to details about the data such as the quality of the data and whether or not it was estimated. There are 25 unique companies, with some having data going back from 2001 while some newer companies have start years after that.
+
+For our dashboard, features such as `new_hires`, `layoffs`, the rates which these companies hire (`hiring_rate_pct `) or layoff ( `attrition_rate_pct `), as well as `revenue_billions_usd` are critical in portraying the effect that these features have. In particular, the effect they have on the growth or shrinkage of workforces in certain major companies could influence the decision that graduates take towards what company they apply at.
+
 ## Section 3: Research Questions & Usage Scenarios
 
 **Persona:**
@@ -26,7 +32,7 @@ We conducted an initial analysis in the [EDA Notebook](../notebooks/eda_analysis
 
 **User Story Addressed:** Hiring Analysis
 
-**Visualization Summary:**  
+**Visualization Summary:**
 
 To address this, we generated a **Net Workforce Growth** bar chart by calculating a new feature, `net_change` (`new_hires` - `layoffs`), which represents the true expansion or contraction of a company's workforce.
 
