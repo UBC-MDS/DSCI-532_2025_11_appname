@@ -2,17 +2,27 @@
 
 ## Job Stories
 
-| # | Job Story | Status | Notes |
-| --- | --- | --- | --- |
-| 1 | When I … I want to … so I can … | ✅ Implemented | ... |
-| 2 | When I … I want to … so I can … | 🔄 Revised | Changed from X to Y because … |
-| 3 | When I … I want to … so I can … | ⏳ Pending M3 | ... |
+| # | Job Story                                                                                                                                                               | Status        | Notes |
+| - | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----- |
+| 1 | As a job seeker, I want to visualize the distribution of hiring across all the major tech companies to<br />assess where my application efforts would be most fruitful. | ⏳ Pending M2 | ...   |
+| 2 | When I search a company, I want to know if they're downsizing or laying off workers so that I can<br />devote less time applying there.                                 | ⏳ Pending M2 | ...   |
+| 3 | As an applicant, I want to view the companies with increasing revenue and a hiring:layoff ratio to<br />determine which companies seem to be growing their team         | ⏳ Pending M2 | ...   |
 
 ## Component Inventory
 
-| ID | Type | Shiny widget/renderer | Depends on | Job Story |
-| --- | --- | --- | --- | --- |
-| input_year | Input | ui.input_slider() | ... | #1, #2 |
+| ID                     | Type       | Shiny widget/renderer | Depends on                            | Job Story    |
+| ---------------------- | ---------- | --------------------- | ------------------------------------- | ------------ |
+| company                | Input      | idk                   |                                       | #1, #2,  #3 |
+| year                   | Input      | idk                   |                                       | #1, #2, #3   |
+| tech_companies         | Expression | idk                   | company                               | #1           |
+| net_change             | Input      | idk                   |                                       | #1           |
+| plot_tech_hires        | Output     | idk                   | tech_companies,<br />net_change, year | #1           |
+| layoffs                | Input      | idk                   |                                       | #2           |
+| plot_layoffs           | Output     | idk                   | company,<br />layoffs,<br />year      | #2           |
+| revenue_billions_usd   | Input      | idk                   |                                       | #3           |
+| new_hires              | Input      | idk                   |                                       | #3           |
+| hire_layoff_ratio      | Expression | idk                   | layoffs, new_hires,<br />company      | #3           |
+| plot_revenue_workforce | Output     | idk                   | hire_layoff_ratio,<br />year          | #3           |
 
 ## Reactivity Diagram
 
