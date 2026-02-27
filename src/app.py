@@ -22,7 +22,7 @@ years_ui = ui.input_slider(
     "Select Year Range:",
     min=min(years),
     max=max(years),
-    value=[2001, 2025], # Sets the default range handle positions
+    value=[2001, 2025],
     sep="",             
     step=1
 )
