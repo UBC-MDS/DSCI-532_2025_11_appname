@@ -21,7 +21,7 @@
 | plot_layoffs           | Output     | idk                   | company,<br />layoffs,<br />year      | #2           |
 | revenue_billions_usd   | Input      | idk                   |                                       | #3           |
 | new_hires              | Input      | idk                   |                                       | #3           |
-| hire_layoff_ratio      | Expression | idk                   | layoffs, new_hires,<br />company      | #3           |
+| hire_layoff_ratio      | Expression | `@render_text`        | layoffs, new_hires,<br />company      | #3           |
 | plot_revenue_workforce | Output     | idk                   | hire_layoff_ratio,<br />year          | #3           |
 | filtered_df | Expression     | `@reactive.calc`                   | company, year          | #3           |
 | plot_trends | Output     | `@render_altair`                   | filtered_df          | #3           |
@@ -56,3 +56,4 @@ For each @reactive.calc in your diagram, briefly describe:
 - Depends on: `input.company` and `input.year`.
 - Transformation: Filters the raw dataset to include only the selected companies and the specified range of years.
 - Consumers: `plot_trends`.
+- Consumers: `hire_layoff_ratio`.

@@ -57,6 +57,9 @@ app_ui = shiny.ui.page_sidebar(
         shiny.ui.card_header("Global View"),
         output_widget("map"),
     ),
+    shiny.ui.layout_columns(
+        shiny.ui.value_box("Hire-Layoff Ratio", shiny.ui.output_text("hire_layoff_ratio"),
+    ),
     title="Tech Workforce Dashboard"
 )
 
@@ -109,6 +112,20 @@ def server(input, output, session):
         ).interactive()
 
         return chart
+
+    @render.text
+    def hire_layoff_ratio():
+        df = filtered_df()
+        if df.empty:
+            return "Hire-Layoff Trend Not Available"
+
+        total_hires = df.loc[:,"new_hires"].sum()
+        total_layoffs = df.loc[:, "layoffs"].sum()
+
+        if total_hires == 0 or total_layoffs == 0:
+            return "Hire-Layoff Ratio Not Available"
+        else:
+            return f"Hire-Layoff Ratio: {total_hires / total_layoffs:.2f}"
 
 
 app = shiny.App(app_ui, server)
