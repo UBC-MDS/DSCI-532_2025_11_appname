@@ -1,10 +1,9 @@
 # Note: using the code from Ilya's DSCI 532 Lecture 3
 
 import altair as alt
-from shiny import App, ui
+from shiny import App, ui, reactive, render
 from shinywidgets import output_widget, render_altair
 import pandas as pd
-from shiny import reactive
 
 data = pd.read_csv("data/raw/tech_employment_2000_2025.csv")
 
@@ -45,9 +44,22 @@ countries = alt.topo_feature(
     "countries",
 )
 
-app_ui = ui.page_fluid(
-    ui.h4("World map (static geoshape)"),
-    output_widget("map"),
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        ui.h2("Filters"),
+        companies_ui,  
+        years_ui,     
+        hiring_metric_ui,
+    ),
+    ui.card(
+        ui.card_header("Company Hiring & Layoff Trends"),
+        output_widget("company_trend_plot"),
+    ),
+    ui.card(
+        ui.card_header("Global View"),
+        output_widget("map"),
+    ),
+    title="Tech Workforce Dashboard"
 )
 
 
