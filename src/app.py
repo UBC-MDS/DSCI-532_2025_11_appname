@@ -40,6 +40,11 @@ hiring_metric_ui = ui.input_select(
     choices=HIRING_METRICS,
 )
 
+reset_ui = ui.input_action_button(
+    "reset",
+    "Reset All Filters",
+)
+
 countries = alt.topo_feature(
     "https://vega.github.io/vega-datasets/data/world-110m.json",
     "countries",
@@ -62,6 +67,14 @@ def server(input, output, session):
             .project(type="equalEarth")
             .properties(height=430)
         )
+
+    # Optional complexity feature that resets all filters
+    @reactive.effect
+    @reactive.event(input.reset)
+    def reset_filters():
+        ui.update_selectize("company", selected=[])
+        ui.update_slider("year", value=[min(years), max(years)])
+        ui.update_select("hiring_metric", selected="net_change")
 
     @reactive.calc
     def filtered_df():
