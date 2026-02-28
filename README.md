@@ -2,6 +2,10 @@
 
 Layoff Lens is an interactive Shiny dashboard designed to help job seekers and data scientists navigate the volatile tech employment landscape. By summarizing workforce trends across major tech companies from 2000 to 2025, the tool allows users to cut through the noise of high hiring numbers to identify companies with true net growth.
 
+## Motivation
+
+Raw hiring data can be misleading. We live in a market where a company might hire 1,000 people while simultaneously laying off 1,200. Layoff Lens safeguards users by visualizing the Net Change and Hire-Layoff Ratio. This allows applicants to prioritize companies with a healthy, expanding environment rather than those simply replacing churned staff, helping them avoid pull-back periods following rapid, unsustainable growth.
+
 ## Deployed Dashboards
 
 - [Stable Version](https://019c8d0c-d197-57fd-3fdf-d468eac4c556.share.connect.posit.cloud/)
@@ -42,3 +46,11 @@ shiny run --reload src/app.py
 Ensure "hot reload" is enabled. This allows the app to refresh automatically when you save changes.
 
 Once running, open the link displayed on your terminal to view the dashboard.
+
+## Contributing
+
+Interested in contributing to **LayoffLens**? We welcome pull requests! Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, branch naming conventions, and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
