@@ -12,7 +12,10 @@ Raw hiring data can be misleading. We live in a market where a company might hir
 - [Development Preview](https://019c8d14-1608-8384-81a5-8d19259745d4.share.connect.posit.cloud/)
 
 ## Dashboard Demo
-The following is a 30 second demo video for our dashboard and how the components function: [Layoff Lens Dashboard Demo](https://github.com/UBC-MDS/DSCI-532_2026_11_LayoffLens/blob/main/img/demo.mp4)
+
+The following is a demo of our dashboard and how the components function: 
+
+![Layoff Lens Dashboard Demo](img/demo.gif)
 
 ## Local Development
 
