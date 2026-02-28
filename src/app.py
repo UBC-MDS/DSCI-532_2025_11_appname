@@ -57,6 +57,9 @@ app_ui = shiny.ui.page_sidebar(
         shiny.ui.card_header("Global View"),
         output_widget("map"),
     ),
+    shiny.ui.layout_columns(
+        shiny.ui.value_box("Hire-Layoff Ratio", shiny.ui.output_text("hire_layoff_ratio"),
+    ),
     title="Tech Workforce Dashboard"
 )
 
