@@ -58,11 +58,11 @@ app_ui = shiny.ui.page_sidebar(
         companies_ui,  
         years_ui,     
         hiring_metric_ui,
-        reset_ui,
         shiny.ui.hr(), 
         shiny.ui.help_text(
             "Note: High hiring spikes can precede consolidation. Use the Hire-Layoff ratio to assess long-term stability."
         ),
+        reset_ui,
     ),
     shiny.ui.card(
         shiny.ui.card_header("Company Hiring & Layoff Trends"),
@@ -124,21 +124,14 @@ def server(input, output, session):
         if df_plot.empty:
             return alt.Chart(pd.DataFrame()).mark_text().encode(text=alt.value("Select a company to see trends"))
 
-        df_melted = df_plot.melt(
-            id_vars=['year', 'company'], 
-            value_vars=['layoffs', metric],
-            var_name='Metric', 
-            value_name='Value'
-        )
-
+        metric_label = HIRING_METRICS.get(metric, metric)
         y_title = "Rate (%)" if metric == "hiring_rate_pct" else "Number of People"
 
-        chart = alt.Chart(df_melted).mark_line(point=True).encode(
+        chart = alt.Chart(df_plot).mark_line(point=True).encode(
             x=alt.X("year:O", title="Year"),
-            y=alt.Y("Value:Q", title=y_title),
+            y=alt.Y(f"{metric}:Q", title=f"{metric_label}"),
             color="company:N",
-            strokeDash="Metric:N", 
-            tooltip=["company", "year", "Metric", "Value"]
+            tooltip=["company", "year", metric]
         ).properties(
             width="container",
             height=400
@@ -164,38 +157,34 @@ def server(input, output, session):
     @shiny.render.text
     def hire_layoff_ratio():
         filtered_data = filtered_df()
-        metric = input.hiring_metric()
-
         if filtered_data.empty:
-            return "N/A"
+            return "Hire-Layoff Trend Not Available"
 
-        if metric == "hiring_rate_pct":
-            return f"{filtered_data['hiring_rate_pct'].mean():.1f}%"
+        total_hires = filtered_data.loc[:,"new_hires"].sum()
+        total_layoffs = filtered_data.loc[:, "layoffs"].sum()
 
-        total_layoffs = filtered_data["layoffs"].sum()
-        metric_total = filtered_data[metric].sum()
-        if metric_total == 0 or total_layoffs == 0:
-            return "N/A"
-        return f"{metric_total / total_layoffs:.2f}"
-
+        if total_hires == 0 or total_layoffs == 0:
+            return "Hire-Layoff Ratio Not Available"
+        
+        return f"Hire-Layoff Ratio: {total_hires / total_layoffs:.2f}"
+    
     @shiny.render.text
     def total_hires():
         filtered_data = filtered_df()
-        metric = input.hiring_metric()
-
+        total_hires = filtered_data.loc[:, "new_hires"].sum()
         if filtered_data.empty:
-            return "N/A"
-
-        if metric == "hiring_rate_pct":
-            return f"{filtered_data[metric].mean():.1f}%"
-        return f"{filtered_data[metric].sum():,.0f}"
-
+            return "Total Hires Not Available"
+        
+        return f"Total Hires: {total_hires}"
+    
     @shiny.render.text
     def total_layoffs():
         filtered_data = filtered_df()
+        total_layoffs = filtered_data.loc[:, "layoffs"].sum()
         if filtered_data.empty:
-            return "N/A"
-        return f"{filtered_data['layoffs'].sum():,.0f}"
+            return "Total Layoffs Not Available"
+        
+        return f"Total Layoffs: {total_layoffs}"
     
     @shiny.reactive.effect
     @shiny.reactive.event(input.reset)
