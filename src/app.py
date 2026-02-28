@@ -66,12 +66,11 @@ app_ui = shiny.ui.page_sidebar(
         shiny.ui.value_box("Total Hires", shiny.ui.output_text("total_hires")),
         shiny.ui.value_box("Total Layoffs", shiny.ui.output_text("total_layoffs")),
     ),
-    title="Tech Workforce Dashboard"
+    title="Layoff Lens: Tech Workforce Dashboard"
 )
 
 
 def server(input, output, session):
-    @output
     @shiny.reactive.calc
     def filtered_df():
         selected = list(input.company())
@@ -91,9 +90,9 @@ def server(input, output, session):
         
         chart = alt.Chart(df_plot).mark_bar().encode(
             x=alt.X("year:O", title="Year"),
-            y=alt.Y("revenue_in_billions:Q", title="Revenue by Year (Billions USD)"),
+            y=alt.Y("revenue_billions_usd:Q", title="Revenue by Year (Billions USD)"),
             color="company:N",
-            tooltip=["company", "year", "revenue_in_billions"]
+            tooltip=["company", "year", "revenue_billions_usd"]
         ).properties(
             width="container",
             height=400
@@ -129,7 +128,7 @@ def server(input, output, session):
 
         return chart
 
-    @render.text
+    @shiny.render.text
     def hire_layoff_ratio():
         filtered_data = filtered_df()
         if filtered_data.empty:
@@ -143,7 +142,7 @@ def server(input, output, session):
         
         return f"Hire-Layoff Ratio: {total_hires / total_layoffs:.2f}"
     
-    @render.text
+    @shiny.render.text
     def total_hires():
         filtered_data = filtered_df()
         total_hires = filtered_data.loc[:, "new_hires"].sum()
@@ -152,7 +151,7 @@ def server(input, output, session):
         
         return f"Total Hires: {total_hires}"
     
-    @render.text
+    @shiny.render.text
     def total_layoffs():
         filtered_data = filtered_df()
         total_layoffs = filtered_data.loc[:, "layoffs"].sum()
